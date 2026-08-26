@@ -1,187 +1,248 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Formulaire de paiement</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            padding: 40px;
-        }
-
-        form {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        button:hover {
-            background: #357abd;
-        }
-
-        .note {
-            font-size: 12px;
-            color: #888;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        #whatsappBtn {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        #whatsappBtn a {
-            display: inline-block;
-            background: #25D366;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        #whatsappBtn a:hover {
-            background: #1ebe5b;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Formulaire de paiement</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+  }
+  .container {
+    width: 100%;
+    max-width: 400px;
+  }
+  #weatherWidget {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  #weatherWidget .temp {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  #weatherWidget .desc {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  input,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button:hover {
+    background: #357abd;
+  }
+  .note {
+    font-size: 12px;
+    color: #888;
+    margin-top: 10px;
+    text-align: center;
+  }
+  #whatsappBtn {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+  }
+  #whatsappBtn a {
+    display: inline-block;
+    background: #25D366;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #whatsappBtn a:hover {
+    background: #1ebe5b;
+  }
+</style>
 </head>
-
 <body>
 
-    <div style="width: 100%; max-width: 400px;">
-        <form id="paymentForm">
-            <h2>Formulaire de paiement</h2>
+<div class="container">
 
-            <label for="nom">Nom complet</label>
-            <input type="text" id="nom" name="nom" required>
+  <div id="weatherWidget">
+    <div>Chargement de la météo...</div>
+  </div>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+  <form id="paymentForm">
+    <h2>Formulaire de paiement</h2>
 
-            <label for="telephone">Téléphone</label>
-            <input type="tel" id="telephone" name="telephone" placeholder="+257 ..." required>
+    <label for="nom">Nom complet</label>
+    <input type="text" id="nom" name="nom" required>
 
-            <label for="montant">Montant (BIF)</label>
-            <input type="number" id="montant" name="montant" min="0" step="1" required>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
 
-            <label for="description">Description du paiement</label>
-            <textarea id="description" name="description" rows="3" required></textarea>
+    <label for="telephone">Téléphone</label>
+    <input type="tel" id="telephone" name="telephone" placeholder="+257 ..." required>
 
-            <button type="submit">Payer</button>
+    <label for="montant">Montant (BIF)</label>
+    <input type="number" id="montant" name="montant" min="0" step="1" required>
 
-            <p class="note">Paiement simulé — en attente d'intégration AfriRegister</p>
-        </form>
+    <label for="description">Description du paiement</label>
+    <textarea id="description" name="description" rows="3" required></textarea>
 
-        <div id="whatsappBtn">
-            <a id="whatsappLink" href="#" target="_blank">📱 Contactez-nous sur WhatsApp</a>
-        </div>
-    </div>
+    <button type="submit">Payer</button>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    <p class="note">Paiement simulé — en attente d'intégration AfriRegister</p>
+  </form>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBejV8kVa9hTgsrZ0O40AwFVLOrhiqULPs",
-            authDomain: "payment-form-5a2f7.firebaseapp.com",
-            projectId: "payment-form-5a2f7",
-            storageBucket: "payment-form-5a2f7.firebasestorage.app",
-            messagingSenderId: "940273318260",
-            appId: "1:940273318260:web:37ca53a1bca813db0c1421",
-            measurementId: "G-739RX5QRDW"
-        };
+  <div id="whatsappBtn">
+    <a id="whatsappLink" href="#" target="_blank">📱 Contactez-nous sur WhatsApp</a>
+  </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+</div>
 
-        const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz_l-g5ZstBwEuxHHQLQl3h09H_gRYKeEJni3d-ymGguFCNR1hRJv80lopgF6P6QYTN/exec";
+<script>
+  // Coordonnées de Bujumbura, Burundi
+  const LAT = -3.3822;
+  const LON = 29.3644;
 
-        // ⚠️ Remplace par TON numéro WhatsApp (indicatif pays + numéro, sans + ni espaces)
-        const MON_NUMERO_WHATSAPP = "25769968407";
+  // Table simplifiée des codes météo Open-Meteo → description en français
+  const weatherCodes = {
+    0: "Ciel dégagé ☀️",
+    1: "Plutôt dégagé 🌤️",
+    2: "Partiellement nuageux ⛅",
+    3: "Couvert ☁️",
+    45: "Brouillard 🌫️",
+    48: "Brouillard givrant 🌫️",
+    51: "Bruine légère 🌦️",
+    53: "Bruine modérée 🌦️",
+    55: "Bruine dense 🌦️",
+    61: "Pluie légère 🌧️",
+    63: "Pluie modérée 🌧️",
+    65: "Pluie forte 🌧️",
+    80: "Averses légères 🌦️",
+    81: "Averses modérées 🌦️",
+    82: "Averses violentes ⛈️",
+    95: "Orage ⛈️"
+  };
 
-        const form = document.getElementById("paymentForm");
-        const whatsappBtn = document.getElementById("whatsappBtn");
-        const whatsappLink = document.getElementById("whatsappLink");
+  async function loadWeather() {
+    const widget = document.getElementById("weatherWidget");
+    try {
+      const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weather_code`
+      );
+      const data = await response.json();
 
-        form.addEventListener("submit", async (event) => {
-            event.preventDefault();
+      const temp = Math.round(data.current.temperature_2m);
+      const code = data.current.weather_code;
+      const description = weatherCodes[code] || "Conditions variables";
 
-            const paymentData = {
-                nom: form.nom.value,
-                email: form.email.value,
-                telephone: form.telephone.value,
-                montant: form.montant.value,
-                description: form.description.value,
-                statut: "en_attente"
-            };
+      widget.innerHTML = `
+        <div class="temp">${temp}°C</div>
+        <div class="desc">Bujumbura — ${description}</div>
+      `;
+    } catch (error) {
+      widget.innerHTML = `<div class="desc">Météo indisponible</div>`;
+      console.error("Erreur météo :", error);
+    }
+  }
 
-            try {
-                // 1. Enregistrement dans Firestore
-                await addDoc(collection(db, "paiements"), {
-                    ...paymentData,
-                    date: new Date()
-                });
+  loadWeather();
+</script>
 
-                // 2. Enregistrement dans Google Sheets
-                await fetch(GOOGLE_SHEETS_URL, {
-                    method: "POST",
-                    body: JSON.stringify(paymentData),
-                    headers: { "Content-Type": "text/plain" }
-                });
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-                // 3. Préparer le message WhatsApp avec les infos du paiement
-                const message = `Bonjour, je viens d'effectuer un paiement.%0A%0ANom: ${paymentData.nom}%0AMontant: ${paymentData.montant} BIF%0ADescription: ${paymentData.description}`;
-                whatsappLink.href = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${message}`;
+  const firebaseConfig = {
+    apiKey: "AIzaSyBejV8kVa9hTgsrZ0O40AwFVLOrhiqULPs",
+    authDomain: "payment-form-5a2f7.firebaseapp.com",
+    projectId: "payment-form-5a2f7",
+    storageBucket: "payment-form-5a2f7.firebasestorage.app",
+    messagingSenderId: "940273318260",
+    appId: "1:940273318260:web:37ca53a1bca813db0c1421",
+    measurementId: "G-739RX5QRDW"
+  };
 
-                // 4. Cacher le formulaire, afficher le bouton WhatsApp
-                form.style.display = "none";
-                whatsappBtn.style.display = "block";
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-            } catch (error) {
-                console.error("Erreur :", error);
-                alert("Erreur lors de l'envoi");
-            }
-        });
-    </script>
+  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz_l-g5ZstBwEuxHHQLQl3h09H_gRYKeEJni3d-ymGguFCNR1hRJv80lopgF6P6QYTN/exec";
+
+  //  numéro WhatsApp
+  const MON_NUMERO_WHATSAPP = "25769968407";
+
+  const form = document.getElementById("paymentForm");
+  const whatsappBtn = document.getElementById("whatsappBtn");
+  const whatsappLink = document.getElementById("whatsappLink");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const paymentData = {
+      nom: form.nom.value,
+      email: form.email.value,
+      telephone: form.telephone.value,
+      montant: form.montant.value,
+      description: form.description.value,
+      statut: "en_attente"
+    };
+
+    try {
+      await addDoc(collection(db, "paiements"), {
+        ...paymentData,
+        date: new Date()
+      });
+
+      await fetch(GOOGLE_SHEETS_URL, {
+        method: "POST",
+        body: JSON.stringify(paymentData),
+        headers: { "Content-Type": "text/plain" }
+      });
+
+      const message = `Bonjour, je viens d'effectuer un paiement.%0A%0ANom: ${paymentData.nom}%0AMontant: ${paymentData.montant} BIF%0ADescription: ${paymentData.description}`;
+      whatsappLink.href = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${message}`;
+
+      form.style.display = "none";
+      whatsappBtn.style.display = "block";
+
+    } catch (error) {
+      console.error("Erreur :", error);
+      alert("Erreur lors de l'envoi");
+    }
+  });
+</script>
 
 </body>
-
 </html>
