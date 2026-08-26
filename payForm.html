@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Formulaire de paiement</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+  }
+  form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  input,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button:hover {
+    background: #357abd;
+  }
+  .note {
+    font-size: 12px;
+    color: #888;
+    margin-top: 10px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<form id="paymentForm">
+  <h2>Formulaire de paiement</h2>
+
+  <label for="nom">Nom complet</label>
+  <input type="text" id="nom" name="nom" required>
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" required>
+
+  <label for="telephone">Téléphone</label>
+  <input type="tel" id="telephone" name="telephone" placeholder="+257 ..." required>
+
+  <label for="montant">Montant (BIF)</label>
+  <input type="number" id="montant" name="montant" min="0" step="1" required>
+
+  <label for="description">Description du paiement</label>
+  <textarea id="description" name="description" rows="3" required></textarea>
+
+  <button type="submit">Payer</button>
+
+  <p class="note">Paiement simulé — en attente d'intégration AfriRegister</p>
+</form>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBejV8kVa9hTgsrZ0O40AwFVLOrhiqULPs",
+    authDomain: "payment-form-5a2f7.firebaseapp.com",
+    projectId: "payment-form-5a2f7",
+    storageBucket: "payment-form-5a2f7.firebasestorage.app",
+    messagingSenderId: "940273318260",
+    appId: "1:940273318260:web:37ca53a1bca813db0c1421",
+    measurementId: "G-739RX5QRDW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz_l-g5ZstBwEuxHHQLQl3h09H_gRYKeEJni3d-ymGguFCNR1hRJv80lopgF6P6QYTN/exec";
+
+  const form = document.getElementById("paymentForm");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const paymentData = {
+      nom: form.nom.value,
+      email: form.email.value,
+      telephone: form.telephone.value,
+      montant: form.montant.value,
+      description: form.description.value,
+      statut: "en_attente" // sera mis à jour une fois l'API AfriRegister branchée
+    };
+
+    try {
+      // 1. Enregistrement dans Firestore
+      await addDoc(collection(db, "paiements"), {
+        ...paymentData,
+        date: new Date()
+      });
+
+      // 2. Enregistrement dans Google Sheets
+      await fetch(GOOGLE_SHEETS_URL, {
+        method: "POST",
+        body: JSON.stringify(paymentData),
+        headers: { "Content-Type": "text/plain" }
+      });
+
+      // 3. --- EMPLACEMENT RÉSERVÉ : Intégration API AfriRegister ---
+      // Une fois la documentation/clé API reçue, on ajoutera ici
+      // l'appel réel vers le service de paiement AfriRegister.
+      // Exemple (à adapter selon leur doc) :
+      //
+      // const response = await fetch("URL_API_AFRIREGISTER", {
+      //   method: "POST",
+      //   headers: {
+      //     "Authorization": "Bearer TA_CLE_API",
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify(paymentData)
+      // });
+      // const result = await response.json();
+      // ---------------------------------------------------------
+
+      alert("Paiement enregistré (simulation) avec succès !");
+      form.reset();
+    } catch (error) {
+      console.error("Erreur :", error);
+      alert("Erreur lors de l'envoi");
+    }
+  });
+</script>
+
+</body>
+</html>
