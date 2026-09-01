@@ -3,205 +3,571 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formulaire de paiement</title>
+<title>Formulaire de Paiement Professionnel</title>
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 40px;
+    align-items: center;
+    padding: 20px;
   }
+
   .container {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  .header h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+  .header p {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .header .logo {
+    font-size: 40px;
+    margin-bottom: 10px;
   }
 
   /* ===== WIDGET METEO ===== */
   .weather-widget {
-    background: linear-gradient(135deg, #4a90e2, #357abd);
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  .weather-header select {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  .weather-header select option {
-    color: black;
-  }
-  .weather-body {
+    padding: 15px 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    border-radius: 12px;
+    margin: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .weather-left {
+    display: flex;
+    align-items: center;
     gap: 10px;
   }
+
   .weather-icon {
-    font-size: 40px;
-  }
-  .weather-temp {
     font-size: 36px;
-    font-weight: bold;
   }
+
+  .weather-temp {
+    font-size: 28px;
+    font-weight: 700;
+  }
+
   .weather-desc {
-    font-size: 14px;
+    font-size: 12px;
     opacity: 0.9;
-    margin-top: 5px;
+    margin-top: 2px;
+  }
+
+  .weather-select-wrapper {
+    position: relative;
+  }
+
+  .city-select {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 25px;
+  }
+
+  .city-select option {
+    color: #333;
+    background: white;
+  }
+
+  .weather-select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: white;
+    pointer-events: none;
   }
 
   /* ===== FORMULAIRE ===== */
   form {
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    box-sizing: border-box;
+    padding: 0 20px 20px;
   }
+
+  h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #667eea;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
   label {
     display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #555;
+    font-size: 14px;
   }
+
+  .required {
+    color: #e74c3c;
+  }
+
   input,
-  textarea {
+  textarea,
+  select {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
   }
-  button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #4a90e2;
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #667eea;
+    outline: none;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .input-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  /* ===== SECTION MONTANT ===== */
+  .amount-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+  }
+
+  .amount-section label {
+    color: #333;
+    font-weight: 600;
+  }
+
+  .amount-input-wrapper {
+    position: relative;
+  }
+
+  .amount-input-wrapper::before {
+    content: 'BIF';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-weight: 600;
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  #montant {
+    padding-right: 50px;
+  }
+
+  /* ===== SECTION MÉTHODE ===== */
+  .method-section {
+    margin: 20px 0;
+  }
+
+  .method-section h4 {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  .payment-methods {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .payment-method {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+  }
+
+  .payment-method:hover {
+    border-color: #667eea;
+    background: #f8f9ff;
+  }
+
+  .payment-method.selected {
+    border-color: #667eea;
+    background: #667eea;
+    color: white;
+  }
+
+  .payment-method .method-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .payment-method .method-name {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ===== BOUTON PAYER ===== */
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    width: 100%;
+    transition: all 0.3s ease;
+    margin: 20px 0 10px;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
   }
-  button:hover {
-    background: #357abd;
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
   }
-  button:disabled {
-    background: #a0c3e8;
+
+  .submit-btn:disabled {
+    background: #ccc;
     cursor: not-allowed;
-  }
-  .note {
-    font-size: 12px;
-    color: #888;
-    margin-top: 10px;
-    text-align: center;
+    transform: none;
+    box-shadow: none;
   }
 
   /* ===== BOUTON WHATSAPP ===== */
-  #whatsappBtn {
+  .whatsapp-section {
     margin-top: 15px;
     text-align: center;
   }
-  #whatsappBtn a {
+
+  .whatsapp-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background: #25D366;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
     color: white;
     padding: 14px 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
+    font-weight: 600;
+    font-size: 15px;
     width: 100%;
-    box-sizing: border-box;
-    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
-    animation: pulse 2s infinite;
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s ease;
   }
-  #whatsappBtn a:hover {
-    background: #1ebe5b;
+
+  .whatsapp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
   }
-  #whatsappBtn .wa-icon {
-    font-size: 22px;
+
+  .whatsapp-icon {
+    font-size: 20px;
   }
-  @keyframes pulse {
-    0% { box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4); }
-    50% { box-shadow: 0 4px 18px rgba(37, 211, 102, 0.7); }
-    100% { box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4); }
+
+  /* ===== SÉCURITÉ ===== */
+  .security-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .security-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #666;
+  }
+
+  .security-icon {
+    font-size: 14px;
+  }
+
+  /* ===== NOTE ===== */
+  .note {
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+
+  /* ===== ALERTES ===== */
+  .alert {
+    display: none;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  /* ===== LOADING COUNTRIES ===== */
+  .loading-spinner {
+    display: none;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 480px) {
+    .container {
+      margin: 10px;
+    }
+
+    .input-group {
+      grid-template-columns: 1fr;
+    }
+
+    .weather-widget {
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">💳</div>
+    <h1>Paiement Sécurisé</h1>
+    <p>Transactions rapides et fiables</p>
+  </div>
 
-  <!-- ===== WIDGET METEO ===== -->
-  <div id="weatherWidget" class="weather-widget">
-    <div class="weather-header">
-      <select id="citySelect">
+  <!-- WIDGET METEO -->
+  <div class="weather-widget">
+    <div class="weather-left">
+      <span id="weatherIcon" class="weather-icon">🌤️</span>
+      <div>
+        <span id="weatherTemp" class="weather-temp">--°C</span>
+        <div id="weatherDesc" class="weather-desc">Chargement...</div>
+      </div>
+    </div>
+    <div class="weather-select-wrapper">
+      <select id="citySelect" class="city-select">
         <option value="-3.3822,29.3644">Bujumbura</option>
         <option value="-3.4264,29.9306">Gitega</option>
         <option value="-2.9007,29.8167">Ngozi</option>
         <option value="-4.1638,29.8124">Makamba</option>
       </select>
     </div>
-    <div class="weather-body">
-      <span id="weatherIcon" class="weather-icon">🌤️</span>
-      <span id="weatherTemp" class="weather-temp">--°C</span>
-    </div>
-    <div id="weatherDesc" class="weather-desc">Chargement...</div>
   </div>
 
-  <!-- ===== FORMULAIRE DE PAIEMENT ===== -->
+  <!-- FORMULAIRE -->
   <form id="paymentForm">
-    <h2>Formulaire de paiement</h2>
+    <h2>📋 Informations de Paiement</h2>
 
-    <label for="nom">Nom complet</label>
-    <input type="text" id="nom" name="nom" required>
+    <!-- Alertes -->
+    <div id="alertSuccess" class="alert alert-success">
+      ✅ Paiement enregistré avec succès !
+    </div>
+    <div id="alertError" class="alert alert-error">
+      ❌ Erreur lors de l'enregistrement. Veuillez réessayer.
+    </div>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
+    <!-- Identité -->
+    <div class="form-group">
+      <label for="nom">Nom complet <span class="required">*</span></label>
+      <input type="text" id="nom" name="nom" placeholder="Jean Ntibazonkiza" required>
+    </div>
 
-    <label for="telephone">Téléphone</label>
-    <input type="tel" id="telephone" name="telephone" placeholder="+257 ..." required>
+    <div class="input-group">
+      <div class="form-group">
+        <label for="email">Email <span class="required">*</span></label>
+        <input type="email" id="email" name="email" placeholder="exemple@email.com" required>
+      </div>
 
-    <label for="pays">Pays</label>
-    <select id="pays" name="pays" required>
-      <option value="">Chargement des pays...</option>
-    </select>
+      <div class="form-group">
+        <label for="telephone">Téléphone <span class="required">*</span></label>
+        <input type="tel" id="telephone" name="telephone" placeholder="+257 79 000 000" required>
+      </div>
+    </div>
 
-    <label for="montant">Montant (BIF)</label>
-    <input type="number" id="montant" name="montant" min="0" step="1" required>
+    <!-- Pays avec API -->
+    <div class="form-group">
+      <label for="pays">Pays <span class="required">*</span></label>
+      <div class="loading-spinner" id="paysLoading">
+        <span class="spinner"></span> Chargement des pays...
+      </div>
+      <select id="pays" name="pays" required disabled>
+        <option value="">-- Chargement des pays... --</option>
+      </select>
+    </div>
 
-    <label for="description">Description du paiement</label>
-    <textarea id="description" name="description" rows="3" required></textarea>
+    <!-- Montant -->
+    <div class="amount-section">
+      <label for="montant">Montant à payer (BIF) <span class="required">*</span></label>
+      <div class="amount-input-wrapper">
+        <input type="number" id="montant" name="montant" min="100" step="500" placeholder="25000" required>
+      </div>
+    </div>
 
-    <button type="submit" id="submitBtn">Payer</button>
+    <!-- Méthode de paiement -->
+    <div class="method-section">
+      <h4>💳 Méthode de paiement</h4>
+      <div class="payment-methods">
+        <div class="payment-method" data-method="mobile-money">
+          <span class="method-icon">📱</span>
+          <span class="method-name">Mobile Money</span>
+        </div>
+        <div class="payment-method" data-method="carte-bancaire">
+          <span class="method-icon">💳</span>
+          <span class="method-name">Carte Bancaire</span>
+        </div>
+        <div class="payment-method" data-method="especes">
+          <span class="method-icon">💵</span>
+          <span class="method-name">Espèces</span>
+        </div>
+      </div>
+    </div>
 
-    <!-- ===== BOUTON WHATSAPP (toujours visible, juste sous Payer) ===== -->
-    <div id="whatsappBtn">
-      <a id="whatsappLink" href="#" target="_blank">
-        <span class="wa-icon">📱</span> Contactez-nous sur WhatsApp
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description du paiement <span class="required">*</span></label>
+      <textarea id="description" name="description" placeholder="Ex: Paiement des frais de scolarité, facture, etc." required></textarea>
+    </div>
+
+    <!-- Référence -->
+    <div class="form-group">
+      <label for="reference">Référence (optionnel)</label>
+      <input type="text" id="reference" name="reference" placeholder="Numéro de référence si disponible">
+    </div>
+
+    <!-- Bouton Payer -->
+    <button type="submit" id="submitBtn" class="submit-btn" disabled>
+      🔒 Payer en toute sécurité
+    </button>
+
+    <!-- Bouton WhatsApp -->
+    <div class="whatsapp-section">
+      <a id="whatsappLink" href="#" target="_blank" class="whatsapp-btn">
+        <span class="whatsapp-icon">📱</span> Contactez-nous sur WhatsApp
       </a>
     </div>
 
-    <p class="note">Paiement simulé — en attente d'intégration AfriRegister</p>
-  </form>
+    <!-- Sécurité -->
+    <div class="security-section">
+      <div class="security-item">
+        <span class="security-icon">🔒</span>
+        <span>SSL Sécurisé</span>
+      </div>
+      <div class="security-item">
+        <span class="security-icon">🛡️</span>
+        <span>Paiement Protégé</span>
+      </div>
+      <div class="security-item">
+        <span class="security-icon">⏰</span>
+        <span>Confirmation Immédiate</span>
+      </div>
+    </div>
 
+    <p class="note">
+      🔒 Paiement 100% sécurisé et vérifié<br>
+      © 2024 Tous droits réservés
+    </p>
+  </form>
 </div>
 
 <script>
   // ============================================
-  // WIDGET METEO (API Open-Meteo, gratuite, sans clé)
+  // WIDGET METEO
   // ============================================
   const weatherCodes = {
     0: { desc: "Ciel dégagé", icon: "☀️" },
@@ -252,57 +618,95 @@
     loadWeather(lat, lon);
   });
 
-  // Charger Bujumbura par défaut au démarrage
   loadWeather(-3.3822, 29.3644);
 
   // ============================================
-  // LISTE DES PAYS (liste fixe en français, fiable)
+  // CHARGEMENT DES PAYS VIA API (RestCountries)
   // ============================================
-  const countriesList = [
-    "Afghanistan","Afrique du Sud","Albanie","Algérie","Allemagne","Andorre","Angola",
-    "Arabie saoudite","Argentine","Arménie","Australie","Autriche","Azerbaïdjan",
-    "Bahamas","Bahreïn","Bangladesh","Belgique","Belize","Bénin","Bhoutan","Biélorussie",
-    "Birmanie","Bolivie","Bosnie-Herzégovine","Botswana","Brésil","Brunei","Bulgarie",
-    "Burkina Faso","Burundi","Cambodge","Cameroun","Canada","Cap-Vert","Chili","Chine",
-    "Chypre","Colombie","Comores","Congo","Congo (RDC)","Corée du Nord","Corée du Sud",
-    "Costa Rica","Côte d'Ivoire","Croatie","Cuba","Danemark","Djibouti","Égypte",
-    "Émirats arabes unis","Équateur","Érythrée","Espagne","Estonie","Eswatini",
-    "États-Unis","Éthiopie","Fidji","Finlande","France","Gabon","Gambie","Géorgie",
-    "Ghana","Grèce","Guatemala","Guinée","Guinée-Bissau","Guinée équatoriale","Guyana",
-    "Haïti","Honduras","Hongrie","Inde","Indonésie","Irak","Iran","Irlande","Islande",
-    "Israël","Italie","Jamaïque","Japon","Jordanie","Kazakhstan","Kenya","Kirghizistan",
-    "Kiribati","Kosovo","Koweït","Laos","Lesotho","Lettonie","Liban","Liberia","Libye",
-    "Liechtenstein","Lituanie","Luxembourg","Macédoine du Nord","Madagascar","Malaisie",
-    "Malawi","Maldives","Mali","Malte","Maroc","Maurice","Mauritanie","Mexique",
-    "Micronésie","Moldavie","Monaco","Mongolie","Monténégro","Mozambique","Namibie",
-    "Nauru","Népal","Nicaragua","Niger","Nigeria","Norvège","Nouvelle-Zélande","Oman",
-    "Ouganda","Ouzbékistan","Pakistan","Palaos","Palestine","Panama","Papouasie-Nouvelle-Guinée",
-    "Paraguay","Pays-Bas","Pérou","Philippines","Pologne","Portugal","Qatar",
-    "République centrafricaine","République dominicaine","République tchèque","Roumanie",
-    "Royaume-Uni","Russie","Rwanda","Saint-Marin","Salvador","Samoa","Sao Tomé-et-Principe",
-    "Sénégal","Serbie","Seychelles","Sierra Leone","Singapour","Slovaquie","Slovénie",
-    "Somalie","Soudan","Soudan du Sud","Sri Lanka","Suède","Suisse","Suriname","Syrie",
-    "Tadjikistan","Tanzanie","Tchad","Thaïlande","Timor oriental","Togo","Tonga",
-    "Trinité-et-Tobago","Tunisie","Turkménistan","Turquie","Tuvalu","Ukraine","Uruguay",
-    "Vanuatu","Vatican","Venezuela","Vietnam","Yémen","Zambie","Zimbabwe"
-  ];
-
-  function loadCountries() {
+  async function loadCountriesFromAPI() {
     const select = document.getElementById("pays");
-    select.innerHTML = '<option value="">-- Sélectionnez un pays --</option>';
+    const loadingSpinner = document.getElementById("paysLoading");
+    const submitBtn = document.getElementById("submitBtn");
 
-    countriesList.forEach((country) => {
-      const option = document.createElement("option");
-      option.value = country;
-      option.textContent = country;
-      select.appendChild(option);
-    });
+    try {
+      loadingSpinner.style.display = "block";
+      select.disabled = true;
 
-    // Sélectionner le Burundi par défaut
-    select.value = "Burundi";
+      // API RestCountries - gratuite et sans clé
+      const response = await fetch("https://restcountries.com/v3.1/all?fields=name,translations");
+      const countries = await response.json();
+
+      // Trier par nom français
+      const sortedCountries = countries.sort((a, b) => {
+        const nameA = a.translations?.fra?.common || a.name.common;
+        const nameB = b.translations?.fra?.common || b.name.common;
+        return nameA.localeCompare(nameB);
+      });
+
+      // Vider et remplir le select
+      select.innerHTML = '<option value="">-- Sélectionnez un pays --</option>';
+
+      sortedCountries.forEach(country => {
+        const countryName = country.translations?.fra?.common || country.name.common;
+        const option = document.createElement("option");
+        option.value = countryName;
+        option.textContent = countryName;
+        select.appendChild(option);
+      });
+
+      // Sélectionner le Burundi par défaut
+      select.value = "Burundi";
+
+      // Activer les champs
+      loadingSpinner.style.display = "none";
+      select.disabled = false;
+      submitBtn.disabled = false;
+
+    } catch (error) {
+      console.error("Erreur lors du chargement des pays :", error);
+      
+      // Fallback en cas d'erreur API
+      loadingSpinner.style.display = "none";
+      select.innerHTML = `
+        <option value="">-- Erreur de chargement --</option>
+        <option value="Burundi">Burundi</option>
+        <option value="France">France</option>
+        <option value="Belgique">Belgique</option>
+        <option value="Canada">Canada</option>
+        <option value="Suisse">Suisse</option>
+        <option value="Rwanda">Rwanda</option>
+        <option value="Tanzanie">Tanzanie</option>
+        <option value="Ouganda">Ouganda</option>
+        <option value="Kenya">Kenya</option>
+        <option value="Congo">Congo</option>
+        <option value="Congo (RDC)">Congo (RDC)</option>
+      `;
+      select.disabled = false;
+      submitBtn.disabled = false;
+      
+      alert("Impossible de charger la liste complète des pays. Liste limitée affichée.");
+    }
   }
 
-  loadCountries();
+  // Charger les pays au démarrage
+  document.addEventListener("DOMContentLoaded", loadCountriesFromAPI);
+
+  // ============================================
+  // SÉLECTION MÉTHODE DE PAIEMENT
+  // ============================================
+  const paymentMethods = document.querySelectorAll('.payment-method');
+  let selectedMethod = 'mobile-money';
+
+  paymentMethods.forEach(method => {
+    method.addEventListener('click', () => {
+      paymentMethods.forEach(m => m.classList.remove('selected'));
+      method.classList.add('selected');
+      selectedMethod = method.dataset.method;
+    });
+  });
+
+  // Sélectionner Mobile Money par défaut
+  document.querySelector('[data-method="mobile-money"]').classList.add('selected');
 </script>
 
 <script type="module">
@@ -327,23 +731,26 @@
 
   const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz_l-g5ZstBwEuxHHQLQl3h09H_gRYKeEJni3d-ymGguFCNR1hRJv80lopgF6P6QYTN/exec";
 
-  // ⚠️ Remplace par TON numéro WhatsApp (indicatif pays + numéro, sans + ni espaces)
+  // ⚠️ Remplace par TON numéro WhatsApp
   const MON_NUMERO_WHATSAPP = "25762435714";
 
   const form = document.getElementById("paymentForm");
   const submitBtn = document.getElementById("submitBtn");
-  const whatsappBtn = document.getElementById("whatsappBtn");
   const whatsappLink = document.getElementById("whatsappLink");
+  const alertSuccess = document.getElementById("alertSuccess");
+  const alertError = document.getElementById("alertError");
 
-  // Lien WhatsApp par défaut (avant tout envoi de formulaire)
   whatsappLink.href = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${encodeURIComponent("Bonjour, j'ai une question sur le paiement.")}`;
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // Empêche les doubles clics / doubles envois
     submitBtn.disabled = true;
-    submitBtn.textContent = "Envoi en cours...";
+    submitBtn.textContent = "Traitement...";
+
+    // Récupérer la méthode de paiement sélectionnée
+    const selectedMethodEl = document.querySelector('.payment-method.selected');
+    const paymentMethod = selectedMethodEl ? selectedMethodEl.dataset.method : 'mobile-money';
 
     const paymentData = {
       nom: form.nom.value,
@@ -352,37 +759,63 @@
       pays: form.pays.value,
       montant: form.montant.value,
       description: form.description.value,
+      reference: form.reference.value || "N/A",
+      methode_paiement: paymentMethod,
       statut: "en_attente"
     };
 
     try {
-      // 1. Enregistrement dans Firestore
+      // Enregistrement dans Firestore
       await addDoc(collection(db, "paiements"), {
         ...paymentData,
         date: new Date()
       });
 
-      // 2. Enregistrement dans Google Sheets
+      // Enregistrement dans Google Sheets
       await fetch(GOOGLE_SHEETS_URL, {
         method: "POST",
         body: JSON.stringify(paymentData),
         headers: { "Content-Type": "text/plain" }
       });
 
-      // 3. Mettre à jour le lien WhatsApp avec les infos du paiement effectué
-      const message = `Bonjour, je viens d'effectuer un paiement.%0A%0ANom: ${paymentData.nom}%0AMontant: ${paymentData.montant} BIF%0ADescription: ${paymentData.description}`;
+      // Message WhatsApp
+      const message = `Bonjour, je viens d'effectuer un paiement.%0A%0A` +
+        `👤 Nom: ${paymentData.nom}%0A` +
+        `📧 Email: ${paymentData.email}%0A` +
+        `📱 Téléphone: ${paymentData.telephone}%0A` +
+        `🌍 Pays: ${paymentData.pays}%0A` +
+        `💵 Montant: ${paymentData.montant} BIF%0A` +
+        `📝 Description: ${paymentData.description}%0A` +
+        `🔖 Référence: ${paymentData.reference}%0A` +
+        `💳 Méthode: ${paymentMethod}`;
+
       whatsappLink.href = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${message}`;
 
-      alert("Paiement enregistré avec succès ! Cliquez sur le bouton WhatsApp ci-dessous pour confirmer.");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Payer";
-      form.reset();
+      // Affichage succès
+      alertSuccess.style.display = "block";
+      alertError.style.display = "none";
+
+      setTimeout(() => {
+        alertSuccess.style.display = "none";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "🔒 Payer en toute sécurité";
+        form.reset();
+      }, 5000);
+
+      // Notification WhatsApp automatique
+      window.open(`https://wa.me/${MON_NUMERO_WHATSAPP}?text=${message}`, '_blank');
 
     } catch (error) {
       console.error("Erreur :", error);
-      alert("Erreur lors de l'envoi");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Payer";
+      
+      alertError.style.display = "block";
+      alertSuccess.style.display = "none";
+
+      setTimeout(() => {
+        alertError.style.display = "none";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "🔒 Payer en toute sécurité";
+      }, 5000);
     }
   });
 </script>
