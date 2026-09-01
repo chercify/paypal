@@ -30,7 +30,6 @@
     overflow: hidden;
   }
 
-  /* ===== HEADER ===== */
   .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -54,7 +53,6 @@
     margin-bottom: 10px;
   }
 
-  /* ===== WIDGET METEO ===== */
   .weather-widget {
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
@@ -121,7 +119,6 @@
     pointer-events: none;
   }
 
-  /* ===== FORMULAIRE ===== */
   form {
     padding: 0 20px 20px;
   }
@@ -182,7 +179,6 @@
     gap: 15px;
   }
 
-  /* ===== SECTION MONTANT ===== */
   .amount-section {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     border-radius: 10px;
@@ -215,7 +211,6 @@
     padding-right: 50px;
   }
 
-  /* ===== SECTION MÉTHODE ===== */
   .method-section {
     margin: 20px 0;
   }
@@ -266,7 +261,6 @@
     font-weight: 500;
   }
 
-  /* ===== BOUTON PAYER ===== */
   .submit-btn {
     width: 100%;
     padding: 15px;
@@ -294,7 +288,6 @@
     box-shadow: none;
   }
 
-  /* ===== BOUTON WHATSAPP ===== */
   .whatsapp-section {
     margin-top: 15px;
     text-align: center;
@@ -326,7 +319,6 @@
     font-size: 20px;
   }
 
-  /* ===== SÉCURITÉ ===== */
   .security-section {
     display: flex;
     align-items: center;
@@ -350,7 +342,6 @@
     font-size: 14px;
   }
 
-  /* ===== NOTE ===== */
   .note {
     font-size: 11px;
     color: #999;
@@ -360,7 +351,6 @@
     border-top: 1px solid #eee;
   }
 
-  /* ===== ALERTES ===== */
   .alert {
     display: none;
     padding: 12px;
@@ -381,7 +371,6 @@
     border: 1px solid #f5c6cb;
   }
 
-  /* ===== LOADING COUNTRIES ===== */
   .loading-spinner {
     display: none;
     text-align: center;
@@ -404,7 +393,6 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 480px) {
     .container {
       margin: 10px;
@@ -424,14 +412,12 @@
 <body>
 
 <div class="container">
-  <!-- HEADER -->
   <div class="header">
     <div class="logo">💳</div>
     <h1>Paiement Sécurisé</h1>
     <p>Transactions rapides et fiables</p>
   </div>
 
-  <!-- WIDGET METEO -->
   <div class="weather-widget">
     <div class="weather-left">
       <span id="weatherIcon" class="weather-icon">🌤️</span>
@@ -450,11 +436,9 @@
     </div>
   </div>
 
-  <!-- FORMULAIRE -->
   <form id="paymentForm">
     <h2>📋 Informations de Paiement</h2>
 
-    <!-- Alertes -->
     <div id="alertSuccess" class="alert alert-success">
       ✅ Paiement enregistré avec succès !
     </div>
@@ -462,7 +446,6 @@
       ❌ Erreur lors de l'enregistrement. Veuillez réessayer.
     </div>
 
-    <!-- Identité -->
     <div class="form-group">
       <label for="nom">Nom complet <span class="required">*</span></label>
       <input type="text" id="nom" name="nom" placeholder="Jean Ntibazonkiza" required>
@@ -491,15 +474,14 @@
       </select>
     </div>
 
-    <!-- Montant -->
+    <!-- Montant (corrigé : step="1" pour accepter tous les montants) -->
     <div class="amount-section">
       <label for="montant">Montant à payer (BIF) <span class="required">*</span></label>
       <div class="amount-input-wrapper">
-        <input type="number" id="montant" name="montant" min="100" step="500" placeholder="25000" required>
+        <input type="number" id="montant" name="montant" min="100" step="1" placeholder="25000" required>
       </div>
     </div>
 
-    <!-- Méthode de paiement -->
     <div class="method-section">
       <h4>💳 Méthode de paiement</h4>
       <div class="payment-methods">
@@ -518,31 +500,26 @@
       </div>
     </div>
 
-    <!-- Description -->
     <div class="form-group">
       <label for="description">Description du paiement <span class="required">*</span></label>
       <textarea id="description" name="description" placeholder="Ex: Paiement des frais de scolarité, facture, etc." required></textarea>
     </div>
 
-    <!-- Référence -->
     <div class="form-group">
       <label for="reference">Référence (optionnel)</label>
       <input type="text" id="reference" name="reference" placeholder="Numéro de référence si disponible">
     </div>
 
-    <!-- Bouton Payer -->
     <button type="submit" id="submitBtn" class="submit-btn" disabled>
       🔒 Payer en toute sécurité
     </button>
 
-    <!-- Bouton WhatsApp -->
     <div class="whatsapp-section">
       <a id="whatsappLink" href="#" target="_blank" class="whatsapp-btn">
         <span class="whatsapp-icon">📱</span> Contactez-nous sur WhatsApp
       </a>
     </div>
 
-    <!-- Sécurité -->
     <div class="security-section">
       <div class="security-item">
         <span class="security-icon">🔒</span>
@@ -621,7 +598,7 @@
   loadWeather(-3.3822, 29.3644);
 
   // ============================================
-  // CHARGEMENT DES PAYS VIA API (RestCountries)
+  // CHARGEMENT DES PAYS VIA API (API plus fiable)
   // ============================================
   async function loadCountriesFromAPI() {
     const select = document.getElementById("pays");
@@ -632,30 +609,30 @@
       loadingSpinner.style.display = "block";
       select.disabled = true;
 
-      // API RestCountries - gratuite et sans clé
-      const response = await fetch("https://restcountries.com/v3.1/all?fields=name,translations");
-      const countries = await response.json();
+      // Utilisation de l'API CountriesNow (plus fiable pour CORS)
+      const response = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+      const data = await response.json();
 
-      // Trier par nom français
-      const sortedCountries = countries.sort((a, b) => {
-        const nameA = a.translations?.fra?.common || a.name.common;
-        const nameB = b.translations?.fra?.common || b.name.common;
-        return nameA.localeCompare(nameB);
-      });
+      if (!data.error) {
+        const countries = data.data;
+        
+        // Trier par nom
+        const sortedCountries = countries.sort((a, b) => a.name.localeCompare(b.name));
 
-      // Vider et remplir le select
-      select.innerHTML = '<option value="">-- Sélectionnez un pays --</option>';
+        select.innerHTML = '<option value="">-- Sélectionnez un pays --</option>';
 
-      sortedCountries.forEach(country => {
-        const countryName = country.translations?.fra?.common || country.name.common;
-        const option = document.createElement("option");
-        option.value = countryName;
-        option.textContent = countryName;
-        select.appendChild(option);
-      });
+        sortedCountries.forEach(country => {
+          const option = document.createElement("option");
+          option.value = country.name;
+          option.textContent = country.name;
+          select.appendChild(option);
+        });
 
-      // Sélectionner le Burundi par défaut
-      select.value = "Burundi";
+        // Sélectionner le Burundi par défaut
+        select.value = "Burundi";
+      } else {
+        throw new Error("Erreur API");
+      }
 
       // Activer les champs
       loadingSpinner.style.display = "none";
@@ -665,26 +642,53 @@
     } catch (error) {
       console.error("Erreur lors du chargement des pays :", error);
       
-      // Fallback en cas d'erreur API
+      // Fallback en cas d'erreur API - liste manuelle complète
       loadingSpinner.style.display = "none";
-      select.innerHTML = `
-        <option value="">-- Erreur de chargement --</option>
-        <option value="Burundi">Burundi</option>
-        <option value="France">France</option>
-        <option value="Belgique">Belgique</option>
-        <option value="Canada">Canada</option>
-        <option value="Suisse">Suisse</option>
-        <option value="Rwanda">Rwanda</option>
-        <option value="Tanzanie">Tanzanie</option>
-        <option value="Ouganda">Ouganda</option>
-        <option value="Kenya">Kenya</option>
-        <option value="Congo">Congo</option>
-        <option value="Congo (RDC)">Congo (RDC)</option>
-      `;
+      const fallbackCountries = [
+        "Afghanistan", "Afrique du Sud", "Albanie", "Algérie", "Allemagne", "Andorre", "Angola",
+        "Arabie saoudite", "Argentine", "Arménie", "Australie", "Autriche", "Azerbaïdjan",
+        "Bahamas", "Bahreïn", "Bangladesh", "Belgique", "Belize", "Bénin", "Bhoutan",
+        "Biélorussie", "Birmanie", "Bolivie", "Bosnie-Herzégovine", "Botswana", "Brésil",
+        "Brunei", "Bulgarie", "Burkina Faso", "Burundi", "Cambodge", "Cameroun", "Canada",
+        "Cap-Vert", "Chili", "Chine", "Chypre", "Colombie", "Comores", "Congo", "Congo (RDC)",
+        "Corée du Nord", "Corée du Sud", "Costa Rica", "Côte d'Ivoire", "Croatie", "Cuba",
+        "Danemark", "Djibouti", "Égypte", "Émirats arabes unis", "Équateur", "Érythrée",
+        "Espagne", "Estonie", "Eswatini", "États-Unis", "Éthiopie", "Fidji", "Finlande",
+        "France", "Gabon", "Gambie", "Géorgie", "Ghana", "Grèce", "Guatemala", "Guinée",
+        "Guinée-Bissau", "Guinée équatoriale", "Guyana", "Haïti", "Honduras", "Hongrie",
+        "Inde", "Indonésie", "Irak", "Iran", "Irlande", "Islande", "Israël", "Italie",
+        "Jamaïque", "Japon", "Jordanie", "Kazakhstan", "Kenya", "Kirghizistan", "Kiribati",
+        "Kosovo", "Koweït", "Laos", "Lesotho", "Lettonie", "Liban", "Liberia", "Libye",
+        "Liechtenstein", "Lituanie", "Luxembourg", "Macédoine du Nord", "Madagascar",
+        "Malaisie", "Malawi", "Maldives", "Mali", "Malte", "Maroc", "Maurice", "Mauritanie",
+        "Mexique", "Micronésie", "Moldavie", "Monaco", "Mongolie", "Monténégro",
+        "Mozambique", "Namibie", "Nauru", "Népal", "Nicaragua", "Niger", "Nigeria",
+        "Norvège", "Nouvelle-Zélande", "Oman", "Ouganda", "Ouzbékistan", "Pakistan",
+        "Palaos", "Palestine", "Panama", "Papouasie-Nouvelle-Guinée", "Paraguay",
+        "Pays-Bas", "Pérou", "Philippines", "Pologne", "Portugal", "Qatar",
+        "République centrafricaine", "République dominicaine", "République tchèque",
+        "Roumanie", "Royaume-Uni", "Russie", "Rwanda", "Saint-Marin", "Salvador",
+        "Samoa", "Sao Tomé-et-Principe", "Sénégal", "Serbie", "Seychelles",
+        "Sierra Leone", "Singapour", "Slovaquie", "Slovénie", "Somalie", "Soudan",
+        "Soudan du Sud", "Sri Lanka", "Suède", "Suisse", "Suriname", "Syrie",
+        "Tadjikistan", "Tanzanie", "Tchad", "Thaïlande", "Timor oriental", "Togo",
+        "Tonga", "Trinité-et-Tobago", "Tunisie", "Turkménistan", "Turquie", "Tuvalu",
+        "Ukraine", "Uruguay", "Vanuatu", "Vatican", "Venezuela", "Vietnam", "Yémen",
+        "Zambie", "Zimbabwe"
+      ];
+
+      select.innerHTML = '<option value="">-- Sélectionnez un pays --</option>';
+      fallbackCountries.forEach(country => {
+        const option = document.createElement("option");
+        option.value = country;
+        option.textContent = country;
+        select.appendChild(option);
+      });
+
+      // Sélectionner le Burundi par défaut
+      select.value = "Burundi";
       select.disabled = false;
       submitBtn.disabled = false;
-      
-      alert("Impossible de charger la liste complète des pays. Liste limitée affichée.");
     }
   }
 
@@ -705,7 +709,6 @@
     });
   });
 
-  // Sélectionner Mobile Money par défaut
   document.querySelector('[data-method="mobile-money"]').classList.add('selected');
 </script>
 
@@ -731,8 +734,9 @@
 
   const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz_l-g5ZstBwEuxHHQLQl3h09H_gRYKeEJni3d-ymGguFCNR1hRJv80lopgF6P6QYTN/exec";
 
-  // ⚠️ Remplace par TON numéro WhatsApp
-  const MON_NUMERO_WHATSAPP = "25762435714";
+  // ✅ METS TON NUMÉRO WHATSAPP ICI (avec indicatif pays, sans + ni espaces)
+  // Exemple: 25762435714 pour le Burundi
+  const MON_NUMERO_WHATSAPP = "25762435714"; // Remplace par ton numéro
 
   const form = document.getElementById("paymentForm");
   const submitBtn = document.getElementById("submitBtn");
@@ -740,15 +744,16 @@
   const alertSuccess = document.getElementById("alertSuccess");
   const alertError = document.getElementById("alertError");
 
+  // Lien WhatsApp par défaut
   whatsappLink.href = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${encodeURIComponent("Bonjour, j'ai une question sur le paiement.")}`;
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    event.stopPropagation(); // Empêche la soumission normale du formulaire
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Traitement...";
 
-    // Récupérer la méthode de paiement sélectionnée
     const selectedMethodEl = document.querySelector('.payment-method.selected');
     const paymentMethod = selectedMethodEl ? selectedMethodEl.dataset.method : 'mobile-money';
 
@@ -765,20 +770,20 @@
     };
 
     try {
-      // Enregistrement dans Firestore
+      // 1. Enregistrement dans Firestore
       await addDoc(collection(db, "paiements"), {
         ...paymentData,
         date: new Date()
       });
 
-      // Enregistrement dans Google Sheets
+      // 2. Enregistrement dans Google Sheets
       await fetch(GOOGLE_SHEETS_URL, {
         method: "POST",
         body: JSON.stringify(paymentData),
         headers: { "Content-Type": "text/plain" }
       });
 
-      // Message WhatsApp
+      // 3. Message WhatsApp avec toutes les infos
       const message = `Bonjour, je viens d'effectuer un paiement.%0A%0A` +
         `👤 Nom: ${paymentData.nom}%0A` +
         `📧 Email: ${paymentData.email}%0A` +
@@ -789,9 +794,14 @@
         `🔖 Référence: ${paymentData.reference}%0A` +
         `💳 Méthode: ${paymentMethod}`;
 
+      // 4. Mettre à jour le lien WhatsApp avec ton numéro
       whatsappLink.href = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${message}`;
 
-      // Affichage succès
+      // 5. Ouvrir WhatsApp automatiquement avec ton numéro
+      const whatsappUrl = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+
+      // 6. Affichage succès
       alertSuccess.style.display = "block";
       alertError.style.display = "none";
 
@@ -801,9 +811,6 @@
         submitBtn.textContent = "🔒 Payer en toute sécurité";
         form.reset();
       }, 5000);
-
-      // Notification WhatsApp automatique
-      window.open(`https://wa.me/${MON_NUMERO_WHATSAPP}?text=${message}`, '_blank');
 
     } catch (error) {
       console.error("Erreur :", error);
