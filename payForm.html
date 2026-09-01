@@ -371,28 +371,6 @@
     border: 1px solid #f5c6cb;
   }
 
-  .loading-spinner {
-    display: none;
-    text-align: center;
-    margin: 10px 0;
-  }
-
-  .spinner {
-    width: 20px;
-    height: 20px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #667eea;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
   @media (max-width: 480px) {
     .container {
       margin: 10px;
@@ -461,17 +439,6 @@
         <label for="telephone">Téléphone <span class="required">*</span></label>
         <input type="tel" id="telephone" name="telephone" placeholder="+257 79 000 000" required>
       </div>
-    </div>
-
-    <!-- Pays avec API -->
-    <div class="form-group">
-      <label for="pays">Pays <span class="required">*</span></label>
-      <div class="loading-spinner" id="paysLoading">
-        <span class="spinner"></span> Chargement des pays...
-      </div>
-      <select id="pays" name="pays" required disabled>
-        <option value="">-- Chargement des pays... --</option>
-      </select>
     </div>
 
     <!-- Montant -->
@@ -598,96 +565,6 @@
   loadWeather(-3.3822, 29.3644);
 
   // ============================================
-  // CHARGEMENT DES PAYS VIA API
-  // ============================================
-  async function loadCountriesFromAPI() {
-    const select = document.getElementById("pays");
-    const loadingSpinner = document.getElementById("paysLoading");
-    const submitBtn = document.getElementById("submitBtn");
-
-    try {
-      loadingSpinner.style.display = "block";
-      select.disabled = true;
-
-      const response = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
-      const data = await response.json();
-
-      if (!data.error) {
-        const countries = data.data;
-        const sortedCountries = countries.sort((a, b) => a.name.localeCompare(b.name));
-
-        select.innerHTML = '<option value="">-- Sélectionnez un pays --</option>';
-
-        sortedCountries.forEach(country => {
-          const option = document.createElement("option");
-          option.value = country.name;
-          option.textContent = country.name;
-          select.appendChild(option);
-        });
-
-        select.value = "Burundi";
-      } else {
-        throw new Error("Erreur API");
-      }
-
-      loadingSpinner.style.display = "none";
-      select.disabled = false;
-      submitBtn.disabled = false;
-
-    } catch (error) {
-      console.error("Erreur lors du chargement des pays :", error);
-      
-      loadingSpinner.style.display = "none";
-      const fallbackCountries = [
-        "Afghanistan", "Afrique du Sud", "Albanie", "Algérie", "Allemagne", "Andorre", "Angola",
-        "Arabie saoudite", "Argentine", "Arménie", "Australie", "Autriche", "Azerbaïdjan",
-        "Bahamas", "Bahreïn", "Bangladesh", "Belgique", "Belize", "Bénin", "Bhoutan",
-        "Biélorussie", "Birmanie", "Bolivie", "Bosnie-Herzégovine", "Botswana", "Brésil",
-        "Brunei", "Bulgarie", "Burkina Faso", "Burundi", "Cambodge", "Cameroun", "Canada",
-        "Cap-Vert", "Chili", "Chine", "Chypre", "Colombie", "Comores", "Congo", "Congo (RDC)",
-        "Corée du Nord", "Corée du Sud", "Costa Rica", "Côte d'Ivoire", "Croatie", "Cuba",
-        "Danemark", "Djibouti", "Égypte", "Émirats arabes unis", "Équateur", "Érythrée",
-        "Espagne", "Estonie", "Eswatini", "États-Unis", "Éthiopie", "Fidji", "Finlande",
-        "France", "Gabon", "Gambie", "Géorgie", "Ghana", "Grèce", "Guatemala", "Guinée",
-        "Guinée-Bissau", "Guinée équatoriale", "Guyana", "Haïti", "Honduras", "Hongrie",
-        "Inde", "Indonésie", "Irak", "Iran", "Irlande", "Islande", "Israël", "Italie",
-        "Jamaïque", "Japon", "Jordanie", "Kazakhstan", "Kenya", "Kirghizistan", "Kiribati",
-        "Kosovo", "Koweït", "Laos", "Lesotho", "Lettonie", "Liban", "Liberia", "Libye",
-        "Liechtenstein", "Lituanie", "Luxembourg", "Macédoine du Nord", "Madagascar",
-        "Malaisie", "Malawi", "Maldives", "Mali", "Malte", "Maroc", "Maurice", "Mauritanie",
-        "Mexique", "Micronésie", "Moldavie", "Monaco", "Mongolie", "Monténégro",
-        "Mozambique", "Namibie", "Nauru", "Népal", "Nicaragua", "Niger", "Nigeria",
-        "Norvège", "Nouvelle-Zélande", "Oman", "Ouganda", "Ouzbékistan", "Pakistan",
-        "Palaos", "Palestine", "Panama", "Papouasie-Nouvelle-Guinée", "Paraguay",
-        "Pays-Bas", "Pérou", "Philippines", "Pologne", "Portugal", "Qatar",
-        "République centrafricaine", "République dominicaine", "République tchèque",
-        "Roumanie", "Royaume-Uni", "Russie", "Rwanda", "Saint-Marin", "Salvador",
-        "Samoa", "Sao Tomé-et-Principe", "Sénégal", "Serbie", "Seychelles",
-        "Sierra Leone", "Singapour", "Slovaquie", "Slovénie", "Somalie", "Soudan",
-        "Soudan du Sud", "Sri Lanka", "Suède", "Suisse", "Suriname", "Syrie",
-        "Tadjikistan", "Tanzanie", "Tchad", "Thaïlande", "Timor oriental", "Togo",
-        "Tonga", "Trinité-et-Tobago", "Tunisie", "Turkménistan", "Turquie", "Tuvalu",
-        "Ukraine", "Uruguay", "Vanuatu", "Vatican", "Venezuela", "Vietnam", "Yémen",
-        "Zambie", "Zimbabwe"
-      ];
-
-      select.innerHTML = '<option value="">-- Sélectionnez un pays --</option>';
-      fallbackCountries.forEach(country => {
-        const option = document.createElement("option");
-        option.value = country;
-        option.textContent = country;
-        select.appendChild(option);
-      });
-
-      select.value = "Burundi";
-      select.disabled = false;
-      submitBtn.disabled = false;
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", loadCountriesFromAPI);
-
-  // ============================================
   // SÉLECTION MÉTHODE DE PAIEMENT
   // ============================================
   const paymentMethods = document.querySelectorAll('.payment-method');
@@ -726,10 +603,8 @@
 
   const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz_l-g5ZstBwEuxHHQLQl3h09H_gRYKeEJni3d-ymGguFCNR1hRJv80lopgF6P6QYTN/exec";
 
-  // ⚠️⚠️⚠️ METS TON NUMÉRO WHATSAPP ICI ⚠️⚠️⚠️
-  // Format: indicatif pays + numéro sans + ni espaces
-  // Exemple: 25762435714 pour le Burundi
-  const MON_NUMERO_WHATSAPP = "25769968407"; // ← Remplace par TON numéro
+  // ✅ NUMÉRO WHATSAPP (69968407)
+  const MON_NUMERO_WHATSAPP = "69968407";
 
   const form = document.getElementById("paymentForm");
   const submitBtn = document.getElementById("submitBtn");
@@ -754,7 +629,6 @@
       nom: form.nom.value,
       email: form.email.value,
       telephone: form.telephone.value,
-      pays: form.pays.value,
       montant: form.montant.value,
       description: form.description.value,
       reference: form.reference.value || "N/A",
@@ -781,7 +655,6 @@
         `👤 Nom: ${paymentData.nom}%0A` +
         `📧 Email: ${paymentData.email}%0A` +
         `📱 Téléphone: ${paymentData.telephone}%0A` +
-        `🌍 Pays: ${paymentData.pays}%0A` +
         `💵 Montant: ${paymentData.montant} BIF%0A` +
         `📝 Description: ${paymentData.description}%0A` +
         `🔖 Référence: ${paymentData.reference}%0A` +
